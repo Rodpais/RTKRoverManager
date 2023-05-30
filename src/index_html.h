@@ -99,7 +99,7 @@ function checkVariables()
     } 
     else 
     {
-        document.getElementsByName("ssid")[0].placeholder = "Enter WiFi SSID";
+        document.getElementsByName("ssid")[0].placeholder = "Insira o SSID do Wi-Fi";
         document.getElementsByName("ssid")[0].style.color = "grey";
     }
 
@@ -110,7 +110,7 @@ function checkVariables()
     } 
     else 
     {
-        document.getElementsByName("password")[0].placeholder = "Enter WiFi password";
+        document.getElementsByName("password")[0].placeholder = "Digite a senha do Wi-Fi";
         document.getElementsByName("password")[0].style.color = "grey";
     }
 
@@ -121,7 +121,7 @@ function checkVariables()
     } 
     else 
     {
-        document.getElementsByName("device_name")[0].placeholder = "Enter a custom host name";
+        document.getElementsByName("device_name")[0].placeholder = "Digite um nome de host personalizado";
         document.getElementsByName("device_name")[0].style.color = "grey";
     }
 
@@ -132,7 +132,7 @@ function checkVariables()
     } 
     else 
     {
-        document.getElementsByName("caster_host")[0].placeholder = "Enter caster host";
+        document.getElementsByName("caster_host")[0].placeholder = "Insira o host do caster";
         document.getElementsByName("caster_host")[0].style.color = "grey";
     }
 
@@ -143,7 +143,7 @@ function checkVariables()
     } 
     else 
     {
-        document.getElementsByName("caster_port")[0].placeholder = "Enter caster port";
+        document.getElementsByName("caster_port")[0].placeholder = "Entre na porta do rodízio";
         document.getElementsByName("caster_port")[0].style.color = "grey";
     }
 
@@ -154,7 +154,7 @@ function checkVariables()
     } 
     else 
     {
-        document.getElementsByName("mount_point")[0].placeholder = "Enter caster mountpoint";
+        document.getElementsByName("mount_point")[0].placeholder = "Insira o ponto de montagem do lançador";
         document.getElementsByName("mount_point")[0].style.color = "grey";
     }
 
@@ -165,7 +165,7 @@ function checkVariables()
     } 
     else 
     {
-        document.getElementsByName("caster_user")[0].placeholder = "Enter caster user email";
+        document.getElementsByName("caster_user")[0].placeholder = "Digite o e-mail do usuário caster";
         document.getElementsByName("caster_user")[0].style.color = "grey";
     }
 
