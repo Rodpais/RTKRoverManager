@@ -33,9 +33,9 @@ bool RTKRoverManager::setupWiFi(AsyncWebServer* server)
   {
     while ( !savedNetworkAvailable(lastSSID) ) 
     {
-      DBG.print(F("Waiting for HotSpot "));
+      DBG.print(F("Esperando HotSpot.. "));
       DBG.print(lastSSID);
-      DBG.println(F(" to appear..."));
+      DBG.println(F(" aparecer..."));
       vTaskDelay(1000/portTICK_RATE_MS);
       success = false;
     }
@@ -45,11 +45,11 @@ bool RTKRoverManager::setupWiFi(AsyncWebServer* server)
     {
       if (!MDNS.begin(deviceName.c_str())) 
       {
-        DBG.println("Error starting mDNS, use local IP instead!");
+        DBG.println("Erro ao iniciar o mDNS, use o IP local!");
       } 
       else 
       {
-        DBG.print(F("Starting mDNS, find me under <http://"));
+        DBG.print(F("Iniciando o mDNS, encontre-me em <http://"));
         DBG.print(deviceName);
         DBG.println(F(".local>"));
       }
@@ -75,16 +75,16 @@ bool RTKRoverManager::setupStationMode(const char* ssid, const char* password, c
 
   if ( ! WiFi.isConnected() )
   {
-    DBG.println("WiFi Failed! Try to decrease the distance to the AP or check your PW!");
+    DBG.println("WiFi falhou! Tente diminuir a distância até o AP ou verifique seu PW!");
     success = false;
   }
   else 
   {
-    DBG.print(F("WiFi connected to SSID: "));
+    DBG.print(F("WiFi conectado ao SSID: "));
     DBG.println(WiFi.SSID());
-    DBG.print(F("Wifi client started: "));
+    DBG.print(F("Cliente Wi-Fi iniciado: "));
     DBG.println(WiFi.getHostname());
-    DBG.print(F("Station IP Address: "));
+    DBG.print(F("Endereço IP da estação: "));
     DBG.println(WiFi.localIP());
 
     success = true;
@@ -95,16 +95,16 @@ bool RTKRoverManager::setupStationMode(const char* ssid, const char* password, c
 
 void RTKRoverManager::setupAPMode(const char* apSsid, const char* apPassword) 
 {
-  DBG.print("Setting soft-AP ... ");
+  DBG.print("Configurando soft-AP...");
   WiFi.disconnect();
   WiFi.mode(WIFI_AP);
   bool result = WiFi.softAP(apSsid, apPassword);
-  DBG.println(result ? "Ready" : "Failed!");
-  DBG.print(F("Access point started: "));
+  DBG.println(result ? "Pronto" : "Falha!");
+  DBG.print(F("Ponto de acesso iniciado: "));
   DBG.println(apSsid);
-  DBG.print(F("AP IP address: "));
+  DBG.print(F("Endereço IP do AP: "));
   DBG.println(WiFi.softAPIP());
-  DBG.print(F("AP Password: "));
+  DBG.print(F("Senha AP: "));
   DBG.println(AP_PASSWORD);
 }
 
@@ -123,18 +123,18 @@ bool RTKRoverManager::checkConnectionToWifiStation()
 
       if ( ! ssid.isEmpty() && ! password.isEmpty() ) 
       {
-        DBG.println("Try reconnect to access point.");
+        DBG.println("Tente se reconectar ao ponto de acesso.");
         isConnectedToStation = setupStationMode(ssid.c_str(), password.c_str(), deviceName.c_str());
-        DBG.printf("isConnectedToStation: %s\n", isConnectedToStation ? "yes" : "no");
+        DBG.printf("isConnectedToStation: %s\n", isConnectedToStation ? "Sim" : "não");
       }
     } 
     else 
     {
-      DBG.print(F("WiFi connected to SSID: "));
+      DBG.print(F("WiFi conectado ao SSID: "));
       DBG.println(WiFi.SSID());
-      DBG.print(F("WiFi client name: "));
+      DBG.print(F("Nome do cliente Wi-Fi:"));
       DBG.println(WiFi.getHostname());
-      DBG.print(F("IP Address: "));
+      DBG.print(F("Endereço de IP:"));
       DBG.println(WiFi.localIP());
     }
   }
@@ -148,17 +148,17 @@ bool RTKRoverManager::savedNetworkAvailable(const String& ssid)
 
   uint8_t nNetworks = (uint8_t) WiFi.scanNetworks();
   DBG.print(nNetworks);  
-  DBG.println(F(" networks found."));
+  DBG.println(F(" redes encontradas."));
 
   for (uint8_t i=0; i<nNetworks; i++) 
   {
     if (ssid.equals(String(WiFi.SSID(i)))) 
     {
-      DBG.print(F("A known network with SSID found: ")); 
+      DBG.print(F("Uma rede conhecida com SSID encontrada: ")); 
       DBG.print(WiFi.SSID(i));
       DBG.print(F(" (")); 
       DBG.print(WiFi.RSSI(i)); 
-      DBG.println(F(" dB), connecting..."));
+      DBG.println(F(" dB), conectando..."));
       return true;
     }
   }
@@ -189,7 +189,7 @@ void RTKRoverManager::startServer(AsyncWebServer *server)
   
 void RTKRoverManager::notFound(AsyncWebServerRequest *request) 
 {
-  request->send(404, "text/plain", "Not found");
+  request->send(404, "text/plain", "Não encontrado");
 }
 
 void RTKRoverManager::actionRebootESP32(AsyncWebServerRequest *request) 
@@ -219,7 +219,7 @@ void RTKRoverManager::actionWipeData(AsyncWebServerRequest *request)
     }
   } 
 
-  DBG.print(F("Data in LittleFS was wiped out!"));
+  DBG.print(F("Os dados no LittleFS foram eliminados!"));
   request->send_P(200, "text/html", INDEX_HTML, processor);
 }
 
@@ -292,7 +292,7 @@ void RTKRoverManager::actionUpdateData(AsyncWebServerRequest *request)
     }
 
   }
-  DBG.println(F("Data saved to LittleFS!"));
+  DBG.println(F("Dados salvos no LittleFS!"));
   request->send_P(200, "text/html", INDEX_HTML, RTKRoverManager::processor);
 }
 
@@ -373,12 +373,12 @@ bool RTKRoverManager::setupLittleFS()
 
   if ( !LittleFS.begin() ) 
   {
-    Serial.println(F("An Error has occurred while mounting LittleFS"));
+    Serial.println(F("Ocorreu um erro ao montar o LittleFS"));
     return isMounted;
   } 
   else
   {
-    DBG.println("LittleFS mounted");
+    DBG.println("LittleFS montado");
     isMounted = true;
   }
 
@@ -387,16 +387,16 @@ bool RTKRoverManager::setupLittleFS()
 
 bool RTKRoverManager::formatLittleFS()
 {
-  DBG.println("Formatting file system, please wait...");
+  DBG.println("Formatando o sistema de arquivos, aguarde...");
   bool formatted = LittleFS.format();
  
   if (formatted) 
   {
-    DBG.println("\n\nSuccessfully formatted");
+    DBG.println("\n\nFormatado com sucesso");
   }
   else
   {
-    DBG.println("\n\nError during formatting");
+    DBG.println("\n\nErro durante a formatação");
   }
 
   return formatted;
@@ -406,16 +406,16 @@ String RTKRoverManager::readFile(fs::FS &fs, const char* path)
 {
   String fileContent;
 
-  DBG.printf("Reading file: %s\r\n", path);
+  DBG.printf("Lendo arquivo: %s\r\n", path);
   File file = fs.open(path, FILE_READ);
 
   if ( !file || file.isDirectory() ) 
   {
-    DBG.println("- empty file or failed to open file");
+    DBG.println("- arquivo vazio ou falha ao abrir o arquivo");
     return String();
   }
 
-  DBG.println("- read from file:");
+  DBG.println("- leia do arquivo:");
 
   while ( file.available() ) 
   {
@@ -430,21 +430,21 @@ String RTKRoverManager::readFile(fs::FS &fs, const char* path)
 bool RTKRoverManager::writeFile(fs::FS &fs, const char* path, const char* message) 
 { 
   bool success = false;
-  DBG.printf("Writing file: %s\r\n", path);
+  DBG.printf("Arquivo de escrita: %s\r\n", path);
 
   File file = fs.open(path, FILE_WRITE);
   if (!file) 
   {
-    DBG.println("- failed to open file for writing");
+    DBG.println("- falha ao abrir arquivo para gravação");
     return success;
   }
   if (file.print(message)) 
   {
-    DBG.println("- file written");
+    DBG.println("- arquivo escrito");
     success = true;
   } else 
   {
-    DBG.println("- write failed");
+    DBG.println("- falha na gravação");
     success = false;
   }
   file.close();
@@ -459,7 +459,7 @@ void RTKRoverManager::listFiles()
  
   while (file) 
   {
-    DBG.print("FILE: ");
+    DBG.print("ARQUIVO: ");
     DBG.println(file.name());
     file = root.openNextFile();
   }
@@ -482,7 +482,7 @@ void RTKRoverManager::clearPath(const char* path)
   {
     if ( ! LittleFS.remove(path) )
     {
-        assert("Failed to remove LittleFS path.");
+        assert("Falha ao remover o caminho LittleFS.");
     }
   }
 }
@@ -502,7 +502,7 @@ void RTKRoverManager::wipeLittleFSFiles()
       file = root.openNextFile();
   }
 
-  DBG.println(F("Data in LittleFS wiped out!"));
+  DBG.println(F("Os dados no LittleFS foram apagados!"));
 }
 
 
